@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Cloudflare Speedtest</title>
-  <script type="importmap">
-    {
+    <title>Cloudflare Speedtest</title>
+    <script type="importmap">
+        {
       "imports": {
         "@cloudflare/speedtest": "/node_modules/@cloudflare/speedtest/dist/speedtest.js",
         "isomorphic-fetch": "/node_modules/isomorphic-fetch/fetch-npm-browserify.js",
@@ -12,41 +12,43 @@
       }
     }
   </script>
-  <script type="module">
-    import SpeedTest from '@cloudflare/speedtest';
+    <script type="module">
+        import SpeedTest from '@cloudflare/speedtest';
 
-    const speedtest = new SpeedTest({
-      autoStart: false,
-      // Using default measurements which include TURN-based packet loss
-      // No need to specify turnServerUri, turnServerUser, turnServerPass if using Cloudflare's default TURN server
-      // If a custom TURN server is needed, these options would be configured here.
-    });
+        const speedtest = new SpeedTest({
+            autoStart: false,
+            // Using default measurements which include TURN-based packet loss
+            // No need to specify turnServerUri, turnServerUser, turnServerPass if using Cloudflare's default TURN server
+            // If a custom TURN server is needed, these options would be configured here.
+        });
 
-    speedtest.onFinish = results => {
-      const summary = results.getSummary();
-      const output = {
-        download: summary.download,
-        upload: summary.upload,
-        ping: summary.latency,
-        jitter: summary.jitter,
-        packetLoss: summary.packetLoss,
-        loadedLatency: summary.downLoadedLatency, // Using downLoadedLatency as a general loaded latency
-      };
-      console.log(JSON.stringify(output));
-    };
+        speedtest.onFinish = results => {
+            const summary = results.getSummary();
+            const output = {
+                download: summary.download,
+                upload: summary.upload,
+                ping: summary.latency,
+                jitter: summary.jitter,
+                packetLoss: summary.packetLoss,
+                loadedLatency: summary.downLoadedLatency, // Using downLoadedLatency as a general loaded latency
+            };
+            console.log(JSON.stringify(output));
+        };
 
-    speedtest.onError = error => {
-      console.error(JSON.stringify({ error: error }));
-    };
+        speedtest.onError = error => {
+            console.error(JSON.stringify({
+                error: error
+            }));
+        };
 
-    // Start the speed test after the page loads
-    window.addEventListener('load', () => {
-      speedtest.play();
-    });
-  </script>
+        // Start the speed test after the page loads
+        window.addEventListener('load', () => {
+            speedtest.play();
+        });
+    </script>
 </head>
 <body>
-  <h1>Cloudflare Speedtest Running...</h1>
-  <p>Check console for results.</p>
+    <h1>Cloudflare Speedtest Running...</h1>
+    <p>Check console for results.</p>
 </body>
 </html>
