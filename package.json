@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-deps": "npm install && npx playwright install"
   },
   "repository": {
     "type": "git",
@@ -15,6 +16,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@cloudflare/speedtest": "github:Nicholas705M/cloudflare-speedtest#feature/icmp-packet-loss"
+    "@cloudflare/speedtest": "github:Nicholas705M/cloudflare-speedtest#feature/icmp-packet-loss",
+    "playwright": "^1.52.0"
   }
 }

@@ -1,35 +1,46 @@
 #!/usr/bin/env node
 
-const SpeedTest = require("@cloudflare/speedtest").default;
+const { chromium } = require('playwright');
+const path = require('path');
 
-async function runSpeedtest() {
-  const speedtest = new SpeedTest({
-    autoStart: false, // We will manually start it
-    measurements: [
-      { type: "packetLoss", numPackets: 1e3, responsesWaitTime: 3000 },
-    ],
-  });
+async function runSpeedtestCLI() {
+  let browser;
+  try {
+    browser = await chromium.launch({ headless: true });
+    const page = await browser.newPage();
 
-  speedtest.onFinish = (results) => {
-    const summary = results.getSummary();
-    const output = {
-      download: summary.download,
-      upload: summary.upload,
-      ping: summary.latency, // Renamed from ping to latency in summary
-      jitter: summary.jitter,
-      packetLoss: summary.packetLoss,
-      loadedLatency: summary.downLoadedLatency, // Using downLoadedLatency as a general loaded latency
-      // Add other relevant metrics as needed
-    };
-    console.log(JSON.stringify(output, null, 2));
-  };
+    // Listen for console messages from the page
+    page.on('console', async (msg) => {
+      const text = msg.text();
+      try {
+        const jsonOutput = JSON.parse(text);
+        // Check if it's the speedtest result or an error
+        if (jsonOutput.download || jsonOutput.error) {
+          console.log(JSON.stringify(jsonOutput, null, 2));
+          await browser.close();
+          process.exit(jsonOutput.error ? 1 : 0);
+        }
+      } catch (e) {
+        // Ignore non-JSON console messages
+        // console.log(`Browser console: ${text}`);
+      }
+    });
 
-  speedtest.onError = (error) => {
-    console.error(JSON.stringify({ error: error }, null, 2));
+    // Navigate to the local HTML file
+    const htmlFilePath = `file://${path.resolve(__dirname, 'speedtest.html')}`;
+    await page.goto(htmlFilePath);
+
+    // Keep the script running until results are received or timeout
+    // The onFinish/onError handlers in speedtest.html will close the browser
+    // and exit the process.
+    await new Promise(() => {}); // This promise will never resolve, keeping the process alive
+  } catch (error) {
+    console.error(JSON.stringify({ error: error.message }, null, 2));
+    if (browser) {
+      await browser.close();
+    }
     process.exit(1);
-  };
-
-  speedtest.play();
+  }
 }
 
-runSpeedtest();
+runSpeedtestCLI();

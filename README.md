@@ -1,11 +1,10 @@
 # Cloudflare Speedtest CLI
 
-A command-line interface (CLI) tool to perform speed tests using the `Nicholas705M/cloudflare-speedtest` library, which includes ICMP packet loss measurement. The results are output in a structured JSON format.
+A command-line interface (CLI) tool to perform speed tests using the `Nicholas705M/cloudflare-speedtest` library, which includes ICMP packet loss measurement. This CLI leverages Playwright to run the speed test in a headless browser environment, and outputs the results in a structured JSON format.
 
 ## Installation
 
 1.  **Clone this repository**:
-
     ```bash
     git clone https://github.com/Nicholas705M/cloudflare-speedtest-cli.git
     cd cloudflare-speedtest-cli
@@ -13,7 +12,7 @@ A command-line interface (CLI) tool to perform speed tests using the `Nicholas70
 
 2.  **Install dependencies**:
     ```bash
-    npm install
+    npm run install-deps
     ```
 
 ## Usage
@@ -45,9 +44,9 @@ node index.js
 
 ## Error Handling
 
-In case of an error during the speed test, the CLI will output a JSON object with an `error` key to `stderr` and exit with a non-zero status code.
+In case of an error during the speed test or browser operation, the CLI will output a JSON object with an `error` key to `stderr` and exit with a non-zero status code.
 
 ```json
 {
   "error": "Error message details"
-```
+}
