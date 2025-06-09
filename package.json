@@ -17,6 +17,7 @@
   "type": "commonjs",
   "dependencies": {
     "@cloudflare/speedtest": "github:Nicholas705M/cloudflare-speedtest#feature/icmp-packet-loss",
-    "playwright": "^1.52.0"
+    "playwright": "^1.52.0",
+    "serve-handler": "^6.1.6"
   }
 }
