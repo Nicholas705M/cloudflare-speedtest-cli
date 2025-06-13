@@ -21,7 +21,7 @@ class PacketLossMeasurement {
 
     const isWindows = os.platform() === "win32";
     const pingCommand = "ping";
-    const delay = (ms) => new Promise(res => setTimeout(res, ms));
+    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
     for (let i = 0; i < numPackets; i++) {
       const pingArgs = isWindows
@@ -42,7 +42,11 @@ class PacketLossMeasurement {
         });
 
         child.on("error", (err) => {
-          console.error(`PacketLossMeasurement: Spawn error for ping ${i + 1}: ${err.message}`);
+          console.error(
+            `PacketLossMeasurement: Spawn error for ping ${i + 1}: ${
+              err.message
+            }`
+          );
           failedPings++;
           resolve(false); // Indicate failure
         });
