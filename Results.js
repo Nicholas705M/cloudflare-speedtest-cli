@@ -1,5 +1,4 @@
 const stats = require("./utils/stats");
-const { classifyConnection } = require("./utils/classification");
 
 class Results {
   constructor() {
@@ -54,15 +53,6 @@ class Results {
         ? `${this.raw.serverInfo.ip} (${this.raw.serverInfo.loc})`
         : null,
     };
-
-    // Add classification
-    summary.classification = classifyConnection({
-      download: parseFloat(summary.download),
-      upload: parseFloat(summary.upload),
-      ping: parseFloat(summary.ping),
-      jitter: parseFloat(summary.jitter),
-      packetLoss: parseFloat(summary.packetLoss) / 100, // Convert back to ratio for classification
-    });
 
     return summary;
   }

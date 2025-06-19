@@ -34,23 +34,13 @@ node index.js
 
 ```json
 {
-  "download": "95.75",
-  "upload": "80.23",
-  "ping": "15.23",
-  "jitter": "2.10",
-  "packetLoss": "0.00",
+  "download": "95.75", // Mbps
+  "upload": "80.23", // Mbps
+  "ping": "15.23", // ms
+  "jitter": "2.10", // ms
+  "packetLoss": "0.00", // %
   "serverLocation": "Los Angeles (LAX)",
-  "yourIp": "192.0.2.1 (LAX)",
-  "classification": {
-    "overall": "Good",
-    "details": {
-      "download": "good",
-      "upload": "good",
-      "ping": "good",
-      "jitter": "great",
-      "packetLoss": "great"
-    }
-  }
+  "yourIp": "192.0.2.1 (LAX)"
 }
 ```
 
