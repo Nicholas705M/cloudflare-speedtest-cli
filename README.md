@@ -4,30 +4,33 @@ A command-line interface (CLI) tool to measure internet connection speed (downlo
 
 ## Installation
 
-1.  **Clone this repository**:
+### Global Installation (Recommended for CLI usage)
 
+To install the CLI globally and run it from any directory:
+
+```bash
+npm install -g cloudflare-speedtest-cli
+```
+
+### Local Project Usage
+
+If you prefer to install it as a local dependency within another Node.js project:
+
+1.  **Install as a local dependency**:
     ```bash
-    git clone https://github.com/Nicholas705M/cloudflare-speedtest-cli.git
-    cd cloudflare-speedtest-cli
+    npm install cloudflare-speedtest-cli
     ```
-
-2.  **Install dependencies**:
+2.  **Run using npx**:
     ```bash
-    npm install
+    npx cloudflare-speedtest
     ```
 
 ## Usage
 
-Run the CLI directly:
+Once installed globally, run the CLI:
 
 ```bash
-./index.js
-```
-
-Or using `node`:
-
-```bash
-node index.js
+cloudflare-speedtest
 ```
 
 ### Example JSON Output

@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "cloudflare-speedtest": "./index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install-deps": "npm install && npx playwright install"
+    "install-deps": "npm install"
   },
   "repository": {
     "type": "git",
