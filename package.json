@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-speedtest-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -15,7 +15,6 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "d3-scale": "^4.0.2",
     "minimist": "^1.2.8"
   }
 }

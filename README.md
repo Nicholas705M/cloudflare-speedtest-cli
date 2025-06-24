@@ -42,8 +42,13 @@ cloudflare-speedtest
   "ping": "15.23", // ms
   "jitter": "2.10", // ms
   "packetLoss": "0.00", // %
-  "serverLocation": "Los Angeles (LAX)",
-  "yourIp": "192.0.2.1 (LAX)"
+  "server": {
+    "city": "Los Angeles",
+    "colo": "LAX",
+    "ip": "104.20.20.20" // Example server IP
+  },
+  "clientIp": "192.0.2.1", // Your IP
+  "totalDurationMs": "5000.00" // Total test duration in milliseconds
 }
 ```
 

@@ -13,7 +13,7 @@ async function fetchServerLocationData() {
 }
 
 /**
- * Fetches Cloudflare CDN trace information (IP, location, colo).
+ * Fetches Cloudflare CDN trace information (IP, colo).
  * @returns {Promise<object>} A promise that resolves with an object containing trace details.
  */
 function fetchCfCdnCgiTrace() {
@@ -30,6 +30,11 @@ function fetchCfCdnCgiTrace() {
         return data;
       }, {});
 
+  console.log("[ServerInfo] Parsed trace data:", data); // Debug log
+
+  // The trace output contains fields like:
+  // ip=... (client IP)
+  // colo=... (Cloudflare colo IATA code)
   return get("speed.cloudflare.com", "/cdn-cgi/trace").then(parseCfCdnCgiTrace);
 }
 

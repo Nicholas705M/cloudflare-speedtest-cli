@@ -30,11 +30,16 @@ class SpeedTest {
   }
 
   async run() {
+    let testStartTime; // Declare here to be accessible in finally
+    let serverIp = null; // To store the resolved server IP
+
     try {
       // Only print progress messages if not in JSON output mode
       if (!this.options.jsonOutput) {
         console.log("Starting Cloudflare speed test...");
       }
+
+      testStartTime = performance.now(); // Start overall test timer
 
       // 1. Fetch Server Info
       if (this.options.runServerInfo) {
@@ -45,15 +50,14 @@ class SpeedTest {
         ]);
 
         const city = serverLocationData[cfTraceData.colo];
-        this.results.setServerInfo({
-          ip: cfTraceData.ip,
-          loc: cfTraceData.loc,
+        this.results.setClientAndServerLocationInfo({
+          ip: cfTraceData.ip || null, // Ensure ip is passed, or null if undefined
           colo: cfTraceData.colo,
           city: city,
         });
         if (!this.options.jsonOutput) {
           console.log(`Server location: ${city} (${cfTraceData.colo})`);
-          console.log(`Your IP: ${cfTraceData.ip} (${cfTraceData.loc})`);
+          console.log(`Your IP: ${cfTraceData.ip || "N/A"}`);
         }
       }
 
@@ -67,6 +71,15 @@ class SpeedTest {
           this.options.latencyCount
         );
         this.results.setLatencyResults(latencyResults);
+        // Capture server IP from the first successful request
+        if (
+          !serverIp &&
+          latencyResults.raw.length > 0 &&
+          latencyResults.raw[0][4]
+        ) {
+          serverIp = latencyResults.raw[0][4]; // Assuming the 5th element is serverIp
+          this.results.setServerIp(serverIp);
+        }
         if (!this.options.jsonOutput) {
           console.log(
             `Latency: ${latencyResults.median.toFixed(
@@ -148,6 +161,9 @@ class SpeedTest {
     } catch (error) {
       console.error(`Speed test failed: ${error.message}`);
       throw error; // Re-throw to be caught by index.js
+    } finally {
+      let testEndTime = performance.now(); // End overall test timer
+      this.results.setTotalDuration(testEndTime - testStartTime);
     }
   }
 }

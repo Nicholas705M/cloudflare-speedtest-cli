@@ -5,13 +5,14 @@ const { performance } = require("perf_hooks");
  * Makes an HTTPS request and captures timing information.
  * @param {object} options - HTTPS request options (hostname, path, method, headers).
  * @param {string} [data=""] - Data to send in the request body (for POST requests).
- * @returns {Promise<Array<number>>} A promise that resolves with an array of timing data:
- *   [started, ttfb, ended, serverTime]
+ * @returns {Promise<Array<number|string>>} A promise that resolves with an array of timing data:
+ *   [started, ttfb, ended, serverTime, serverIp]
  */
 function request(options, data = "") {
   let started;
   let ttfb;
   let ended;
+  let serverIp = null;
 
   // Use a new Agent for each request to prevent connection reuse, ensuring fresh timing
   options.agent = new https.Agent(options);
@@ -34,7 +35,14 @@ function request(options, data = "") {
             serverTime = parseFloat(match[1]);
           }
         }
-        resolve([started, ttfb, ended, serverTime]);
+        resolve([started, ttfb, ended, serverTime, serverIp]);
+      });
+    });
+
+    req.on("socket", (socket) => {
+      socket.on("connect", () => {
+        serverIp = socket.remoteAddress;
+        console.log(`[Network] Socket connected, serverIp: ${serverIp}`); // Debug log
       });
     });
 

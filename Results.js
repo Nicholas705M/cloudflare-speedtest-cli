@@ -7,7 +7,13 @@ class Results {
       download: [],
       upload: [],
       packetLoss: null,
-      serverInfo: null,
+      server: {
+        city: null,
+        colo: null,
+        ip: null,
+      },
+      clientIp: null,
+      totalDuration: null,
     };
   }
 
@@ -27,8 +33,18 @@ class Results {
     this.raw.packetLoss = results;
   }
 
-  setServerInfo(info) {
-    this.raw.serverInfo = info;
+  setClientAndServerLocationInfo(info) {
+    this.raw.server.city = info.city;
+    this.raw.server.colo = info.colo;
+    this.raw.clientIp = info.clientIp;
+  }
+
+  setServerIp(ip) {
+    this.raw.server.ip = ip;
+  }
+
+  setTotalDuration(duration) {
+    this.raw.totalDuration = duration;
   }
 
   getSummary() {
@@ -46,11 +62,14 @@ class Results {
       packetLoss: this.raw.packetLoss
         ? (this.raw.packetLoss.packetLoss * 100).toFixed(2)
         : null, // Convert to percentage
-      serverLocation: this.raw.serverInfo
-        ? `${this.raw.serverInfo.city} (${this.raw.serverInfo.colo})`
-        : null,
-      yourIp: this.raw.serverInfo
-        ? `${this.raw.serverInfo.ip} (${this.raw.serverInfo.loc})`
+      server: {
+        city: this.raw.server.city,
+        colo: this.raw.server.colo,
+        ip: this.raw.server.ip, // Renamed to server.ip
+      },
+      clientIp: this.raw.clientIp || null, // Top-level client IP
+      totalDurationMs: this.raw.totalDuration
+        ? this.raw.totalDuration.toFixed(2)
         : null,
     };
 
