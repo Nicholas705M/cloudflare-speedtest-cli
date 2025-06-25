@@ -17,20 +17,21 @@ async function fetchServerLocationData() {
  * @returns {Promise<object>} A promise that resolves with an object containing trace details.
  */
 function fetchCfCdnCgiTrace() {
-  const parseCfCdnCgiTrace = (text) =>
-    text
+  const parseCfCdnCgiTrace = (text) => {
+    return text
       .split("\n")
       .map((i) => {
         const j = i.split("=");
         return [j[0], j[1]];
       })
       .reduce((data, [k, v]) => {
-        if (v === undefined) return data;
+        if (v === undefined) {
+          return data;
+        }
         data[k] = v;
         return data;
       }, {});
-
-  console.log("[ServerInfo] Parsed trace data:", data); // Debug log
+  };
 
   // The trace output contains fields like:
   // ip=... (client IP)

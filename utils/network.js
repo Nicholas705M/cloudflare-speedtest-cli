@@ -42,7 +42,6 @@ function request(options, data = "") {
     req.on("socket", (socket) => {
       socket.on("connect", () => {
         serverIp = socket.remoteAddress;
-        console.log(`[Network] Socket connected, serverIp: ${serverIp}`); // Debug log
       });
     });
 
